@@ -47,9 +47,9 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
             <Field>
               <FieldLabel htmlFor="password">Password</FieldLabel>
               <Input id="password" type="password" required />
-              <FieldDescription>
+              {/* <FieldDescription>
                 Must be at least 8 characters long.
-              </FieldDescription>
+              </FieldDescription> */}
             </Field>
             {/* <Field>
               <FieldLabel htmlFor="confirm-password">
@@ -65,7 +65,7 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
                   Sign up with Google
                 </Button>
                 <FieldDescription className="px-6 text-center">
-                  Already have an account? <Link to="/login">Sign in</Link>
+                  Already have an account? <Link to="/auth/login">Sign in</Link>
                 </FieldDescription>
               </Field>
             </FieldGroup>

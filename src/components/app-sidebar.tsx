@@ -132,12 +132,12 @@ const data = {
   documents: [
     {
       name: "Home",
-      url: "/",
+      url: "/dashboard/home",
       icon: IconDatabase,
     },
     {
       name: "Books",
-      url: "/books",
+      url: "/dashboard/books",
       icon: IconReport,
     },
     {
