@@ -1,25 +1,55 @@
-import { Link } from "react-router-dom"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { useRef } from "react";
+import { Link } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import { login } from "@/http/api";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 import {
   Field,
   FieldDescription,
   FieldGroup,
   FieldLabel,
-} from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  // Mutations
+  const mutation = useMutation({
+    mutationFn: login,
+    onSuccess: () => {
+      console.log("Succes api call");
+    },
+  });
+
+  const emailRef = useRef<HTMLInputElement>(null);
+
+  const passwordRef = useRef<HTMLInputElement>(null);
+
+  const handelLoginSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    const email = emailRef.current?.value;
+    const password = passwordRef.current?.value;
+
+    console.log("login values", { email, password });
+
+    if (!email || !password) {
+      return alert("email and password is not found");
+    }
+
+    mutation.mutate({ email, password });
+  };
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -36,6 +66,7 @@ export function LoginForm({
                 <FieldLabel htmlFor="email">Email</FieldLabel>
                 <Input
                   id="email"
+                  ref={emailRef}
                   type="email"
                   placeholder="m@example.com"
                   required
@@ -51,15 +82,21 @@ export function LoginForm({
                     Forgot your password?
                   </a>
                 </div>
-                <Input id="password" type="password" required />
+                <Input
+                  id="password"
+                  ref={passwordRef}
+                  type="password"
+                  required
+                />
               </Field>
               <Field>
-                <Button type="submit">Login</Button>
+                <Button onClick={handelLoginSubmit}>Login</Button>
                 <Button variant="outline" type="button">
                   Login with Google
                 </Button>
                 <FieldDescription className="text-center">
-                  Don&apos;t have an account? <Link to="/auth/signup">Sign up</Link>
+                  Don&apos;t have an account?{" "}
+                  <Link to="/auth/signup">Sign up</Link>
                 </FieldDescription>
               </Field>
             </FieldGroup>
@@ -67,5 +104,5 @@ export function LoginForm({
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
